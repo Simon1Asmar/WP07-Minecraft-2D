@@ -1,0 +1,10 @@
+#game-grid {
+  display: grid;
+}
+
+.grid-cell {
+  background-color: rgb(0, 183, 255);
+  cursor: pointer;
+  /* Temporary (delete later - use now to see) */
+  border: 2px solid black; 
+}

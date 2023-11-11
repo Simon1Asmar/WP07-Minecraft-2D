@@ -9,13 +9,37 @@
 </head>
 <body>
 
-  <!-- <div id="minecraft-logo"></div> -->
-
-  <section id="menu-screen">
-    
+  
+  <section id="menu-screen" class="flex-column">
+    <form class="flex-column">
+      <div id="minecraft-logo"></div>
+      <section class="flex-row">
+        <label for="numOfRows" class="flex-column">
+          Rows
+          <input type="number" name="numOfRows" id="numOfRows" value="10" min="10" max="100">
+        </label>
+        <label for="numOfCols" class="flex-column">
+          Columns
+          <input type="number" name="numOfCols" id="numOfCols" value="15" min="10" max="100">
+        </label>
+        <label for="cellSize" class="flex-column">
+          Cell Size
+          <input type="number" name="cellSize" id="cellSize" value="100" min="10" max="500">
+        </label>
+      </section>
+      <label for="theme" class="flex-column">
+        Theme
+        <select name="theme" id="theme">
+          <option value="normal">Normal</option>
+          <option value="snow">Snow</option>
+          <option value="desert">Desert</option>
+        </select>
+      </label>
+      <button type="submit">Generate Level</button>
+    </form>
   </section>
 
-  <section id="game" class="display-none">
+  <section id="game-screen" class="display-none">
     <section id="tools-section">
       <div id="axe" class="tool"></div>
       <div id="pickaxe" class="tool"></div>

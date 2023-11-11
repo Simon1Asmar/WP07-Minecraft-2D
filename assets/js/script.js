@@ -1,7 +1,30 @@
+// MENU SCREEN DOM SELECTION
+const form = document.querySelector("form");
+const menuScreen = document.querySelector("#menu-screen");
+const gameScreen = document.querySelector("#game-screen");
+
+form.addEventListener("submit", setValuesFromForm);
+
+function setValuesFromForm(event){
+  event.preventDefault();
+
+  game.numOfRows = event.target.numOfRows.value;
+  game.numOfCols = event.target.numOfCols.value;
+  game.cellSize = event.target.cellSize.value;
+  game.currentTheme = game.themeOptions[event.target.theme.value];
+  
+  menuScreen.classList.add("display-none");
+  console.log('menuScreen', menuScreen)
+  gameScreen.classList.remove("display-none");
+  generateWorld();
+}
+
 //Selecting DOM Elements
 const grid = document.querySelector("#game-grid");
 const toolsSection = document.querySelector("#tools-section");
-const inventorySection = document.querySelector("#inventory-section")
+const inventorySection = document.querySelector("#inventory-section");
+
+
   
 grid.addEventListener("click", gridEventListener);
 toolsSection.addEventListener("click", updateCurrentAction);
@@ -9,6 +32,7 @@ inventorySection.addEventListener("click", updateCurrentAction);
 
 //TEMPORARY VALUES, when it's dynamic these values will be taken from a DOM element
 const game = {
+  //these values get set from the form
   numOfRows: 10,
   numOfCols: 15,
   cellSize: 100,
@@ -88,7 +112,7 @@ function generateWorld(){
 
   // game.currentTheme = game.themeOptions.normal;
   // game.currentTheme = game.themeOptions.snow;
-  game.currentTheme = game.themeOptions.desert;
+  // game.currentTheme = game.themeOptions.desert;
   
   initializeInventory();
   let gridData = buildGrid(game.numOfRows, game.numOfCols, game.cellSize);

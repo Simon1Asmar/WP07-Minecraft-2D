@@ -227,20 +227,33 @@ function updateCurrentAction(event){
 
 function gridEventListener(event){
   
-  if(event.target.classList.contains("grid-cell") && !event.target.classList.contains("cloud") && event.target.classList.length > 1){
+  if(event.target.classList.contains("grid-cell") && !event.target.classList.contains("cloud")){
     
     const cell = event.target;
-    console.log('game.currentAction', game.currentAction)
+    // console.log('game.currentAction', game.currentAction)
     console.log('cell', cell)
 
     // game.checkIfBreakable(cell);
 
-    if(game.checkIfBreakable(cell)){
-      console.log(`removing ${cell.getAttribute("blockType")} from ${cell.classList}`);
-      cell.classList.remove(cell.classList[1]);
-      const blockType = cell.getAttribute("blockType");
-      cell.setAttribute("blockType", "");
-      game.inventory[blockType.substring(0, blockType.lastIndexOf("-"))]++;
+    console.log(game.currentAction);
+    if(game.currentAction==="pickaxe" || game.currentAction==="axe" || game.currentAction==="shovel"){
+      if(event.target.classList.length > 1 && game.checkIfBreakable(cell)){
+        console.log(`removing ${cell.getAttribute("blockType")} from ${cell.classList}`);
+        cell.classList.remove(cell.classList[1]);
+        const blockType = cell.getAttribute("blockType");
+        cell.setAttribute("blockType", "");
+        game.inventory[blockType.substring(0, blockType.lastIndexOf("-"))]++;
+      } 
+    } else {
+      if (event.target.classList.length === 1){
+        const blockType = game.currentAction;
+        if(game.inventory[blockType.substring(0, blockType.lastIndexOf("-"))] > 0){
+          const classStyleName = game.currentTheme[game.currentAction.substring(0, game.currentAction.lastIndexOf("-"))];
+          cell.classList.add(classStyleName);
+          cell.setAttribute("blockType", blockType)
+          game.inventory[blockType.substring(0, blockType.lastIndexOf("-"))]--;
+        }
+     }
     }
 
     // switch (game.currentAction) {

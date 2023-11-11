@@ -2,11 +2,6 @@
 const grid = document.querySelector("#game-grid");
 const toolsSection = document.querySelector("#tools-section");
 const inventorySection = document.querySelector("#inventory-section")
-
-// grid.addEventListener("click", e=>{
-  
-  //   console.log(e.target.id);
-  // })
   
 grid.addEventListener("click", gridEventListener);
 toolsSection.addEventListener("click", updateCurrentAction);
@@ -65,14 +60,12 @@ const game = {
       console.log("NO");
       return false;
     }
-
-    
-
   },
 
   // tree x / column locations
   treeXLocations: [],
   generateTreeXs: function(){
+    this.treeXLocations.length = 0;
     const maxNumOfTrees = Math.floor(Math.random() * (Math.floor(this.numOfCols * 0.2))) + 1; 
     console.log('maxNumOfTrees', maxNumOfTrees);
     for (let i = 0; i<maxNumOfTrees; i++){
@@ -89,12 +82,18 @@ const game = {
   }
 }
 
-game.calcSurfaceLevel();
-// game.currentTheme = game.themeOptions.normal;
-game.currentTheme = game.themeOptions.snow;
-// game.currentTheme = game.themeOptions.desert;
+function generateWorld(){
+  clearChildren(grid);
+  game.calcSurfaceLevel();
 
-initializeInventory();
+  // game.currentTheme = game.themeOptions.normal;
+  // game.currentTheme = game.themeOptions.snow;
+  game.currentTheme = game.themeOptions.desert;
+  
+  initializeInventory();
+  let gridData = buildGrid(game.numOfRows, game.numOfCols, game.cellSize);
+  addBlocks(gridData);
+}
 
 // puts the correct items in the inventory based on the current theme
 function initializeInventory(){
@@ -115,19 +114,12 @@ function initializeInventory(){
 
       game.inventory[currentThemeKeys[i]] = 0
 
-      // p.textContent = "0";
-    } else {
-      
-      p.textContent = "";
-    }
+    } 
   }
+
   updateItemCountersUI();
 
-
 }
-
-const gridData = buildGrid(game.numOfRows, game.numOfCols, game.cellSize);
-addBlocks(gridData);
 
 // creates and appends grid cells to the grid based on the number of rows and columns
 function buildGrid(numOfRows, numOfCols, cellSize){
@@ -151,7 +143,7 @@ function buildGrid(numOfRows, numOfCols, cellSize){
 }
 
 // Goes over each cell and sets it's time
-function addBlocks(){
+function addBlocks(gridData){
   
   game.generateTreeXs();
 
@@ -230,12 +222,7 @@ function gridEventListener(event){
   if(event.target.classList.contains("grid-cell") && !event.target.classList.contains("cloud")){
     
     const cell = event.target;
-    // console.log('game.currentAction', game.currentAction)
-    console.log('cell', cell)
 
-    // game.checkIfBreakable(cell);
-
-    console.log(game.currentAction);
     if(game.currentAction==="pickaxe" || game.currentAction==="axe" || game.currentAction==="shovel"){
       if(event.target.classList.length > 1 && game.checkIfBreakable(cell)){
         console.log(`removing ${cell.getAttribute("blockType")} from ${cell.classList}`);
@@ -255,63 +242,27 @@ function gridEventListener(event){
         }
      }
     }
-
-    // switch (game.currentAction) {
-    //   case "axe":
-    //     // BREAK WOOD AND LEAVES
-    //     const blockType = cell.classList[1];
-    //     if(blockType.includes("log") || blockType.includes("cactus")){
-    //       inventorySection.querySelector("#wood-item");
-    //       game.inventory.wood ++;
-    //       cell.classList.remove(blockType);
-    //     } else if (blockType.includes("leaves")){
-    //       inventorySection.querySelector("#leaves-item");
-    //       game.inventory.leaves ++;
-    //       cell.classList.remove(blockType);
-    //     }
-    //     break;
-    //   case "pickaxe":
-    //     // break stone
-    //     if(game.checkIfBreakable())
-    //     break;
-    //   case "shovel":
-    //     // break sand
-    //     break;
-    //   case "dirt-item":
-    //     // add dirt block
-    //     break;
-    //   case "grass-item":
-    //     // add grass block
-    //     break;
-    //   case "stone-item":
-    //     // add stone block
-    //     break;
-    //   case "wood-item":
-    //     // add wood block
-    //     break;
-    //   case "leaves-item":
-    //     // add leaves block
-    //     break;
-    
-    //   default:
-    //     break;
-    // }
    
   }
 
   updateItemCountersUI();
 
-
 }
 
+// updates the amount of items in the inventory
 function updateItemCountersUI(){
   const keys = Object.keys(game.inventory);
-  // console.log('keys', keys)
   const values = Object.values(game.inventory);
-  // console.log('values', values)
 
   for (let i = 0; i < keys.length; i++) {
     const p = inventorySection.querySelector(`#${keys[i]}-item>p`);
     p.textContent = game.inventory[keys[i]];
   }
+}
+
+function clearChildren(element){
+  while(element.children.length > 0){
+    element.children[0].remove();
+  }
+  console.log("done");
 }

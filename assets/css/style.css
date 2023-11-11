@@ -284,5 +284,11 @@ label>select{
 }
 
 .cloud {
-  background-image: url("../pics/textures/cloud.png");
+  background-image: url("../pics/textures/cloud.webp");
 }
+
+/* 
+Textures from
+https://minecraft.fandom.com/wiki/Category:Block_textures?filefrom=Smooth+Basalt+%28texture%29+JE1.png#mw-category-media
+https://minecraft.wiki/w/Shovel#Diamond
+*/

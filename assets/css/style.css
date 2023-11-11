@@ -1,10 +1,19 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 #game-grid {
   display: grid;
 }
 
 .grid-cell {
+  /* This line makes sure when a background-image is added it is fitted and centered correctly inside the cell*/
+  background: no-repeat center /cover;
   background-color: rgb(0, 183, 255);
   cursor: pointer;
   /* Temporary (delete later - use now to see) */
-  border: 2px solid black; 
+  /* border: 2px solid black;  */
+  /* background-image: url("../pics/icons/grass.png"); */
 }

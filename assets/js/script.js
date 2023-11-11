@@ -1,6 +1,5 @@
 //Selecting DOM Elements
 const grid = document.querySelector("#game-grid");
-console.log('grid', grid)
 
 //TEMPORARY VALUES, when it's dynamic these values will be taken from a DOM element
 const numOfRows = 10;
@@ -19,6 +18,7 @@ function buildGrid(numOfRows, numOfCols, cellSize){
     for (let column = 0; column < numOfCols; column++){
       const cell = document.createElement("div");
       cell.classList.add("grid-cell");
+      cell.id = 
       grid.append(cell);
     }
   }

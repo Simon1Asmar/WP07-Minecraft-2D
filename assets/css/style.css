@@ -14,7 +14,8 @@ body{
   justify-content: center;
 
   background-image: url("../pics/bg-wool-dark.png");
-}
+
+  }
 
 /* MENU SCREEN */
 #menu-screen {
@@ -159,8 +160,23 @@ label>select{
   transform: translateX(-50%);
 }
 
+#options-section{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  width: min-content;
+
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
 .tool,
-.item {
+.item,
+.option {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -176,7 +192,17 @@ label>select{
   position: relative;
 
   color: white;
+}
 
+.option{
+  height: 3vw;
+  width: 3vw;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
 }
 
 .selected {

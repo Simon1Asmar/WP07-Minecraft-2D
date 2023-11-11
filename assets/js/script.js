@@ -1,9 +1,27 @@
-// MENU SCREEN DOM SELECTION
+//Selecting DOM Elements
 const form = document.querySelector("form");
 const menuScreen = document.querySelector("#menu-screen");
 const gameScreen = document.querySelector("#game-screen");
+const grid = document.querySelector("#game-grid");
+const toolsSection = document.querySelector("#tools-section");
+const inventorySection = document.querySelector("#inventory-section");
+const homeBtn = document.querySelector("#home-btn");
+const resetBtn = document.querySelector("#reset-btn");
 
 form.addEventListener("submit", setValuesFromForm);
+
+grid.addEventListener("click", gridEventListener);
+toolsSection.addEventListener("click", updateCurrentAction);
+inventorySection.addEventListener("click", updateCurrentAction);
+
+homeBtn.addEventListener("click", e=>{
+  menuScreen.classList.remove("display-none");
+  gameScreen.classList.add("display-none");
+});
+
+resetBtn.addEventListener("click", e => {
+  generateWorld();
+})
 
 function setValuesFromForm(event){
   event.preventDefault();
@@ -18,17 +36,6 @@ function setValuesFromForm(event){
   gameScreen.classList.remove("display-none");
   generateWorld();
 }
-
-//Selecting DOM Elements
-const grid = document.querySelector("#game-grid");
-const toolsSection = document.querySelector("#tools-section");
-const inventorySection = document.querySelector("#inventory-section");
-
-
-  
-grid.addEventListener("click", gridEventListener);
-toolsSection.addEventListener("click", updateCurrentAction);
-inventorySection.addEventListener("click", updateCurrentAction);
 
 //TEMPORARY VALUES, when it's dynamic these values will be taken from a DOM element
 const game = {

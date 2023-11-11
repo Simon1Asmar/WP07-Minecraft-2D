@@ -1,6 +1,7 @@
 //Selecting DOM Elements
 const grid = document.querySelector("#game-grid");
 const toolsSection = document.querySelector("#tools-section");
+const inventorySection = document.querySelector("#inventory-section")
 
 grid.addEventListener("click", e=>{
  
@@ -9,18 +10,63 @@ grid.addEventListener("click", e=>{
 
 toolsSection.addEventListener("click", e=>{
   console.log(e.target.id);
+  e.target.classList.add("selected")
+})
+
+inventorySection.addEventListener("click", e=> {
+  console.log(e.target.classList[1]);
+  e.target.classList.add("selected")
 })
 
 //TEMPORARY VALUES, when it's dynamic these values will be taken from a DOM element
-const numOfRows = 10;
-const numOfCols = 15;
-const cellSize = 100;
-
 const game = {
-  surfaceLevel: Math.ceil(numOfRows * 0.5),
+  numOfRows: 10,
+  numOfCols: 15,
+  cellSize: 100,
+  surfaceLevel: 0, //SET THIS USING THE FOLLOWING FUNCTION
+  calcSurfaceLevel: function(){
+    this.surfaceLevel = Math.ceil(this.numOfRows * 0.5);
+  },
+  themeOptions: {
+    normal: {
+      dirt: "dirt",
+      grass: "grass",
+      stone: "cobblestone",
+      wood: "oak-log",
+      leaves: "oak-leaves",
+    }
+  },
+  currentTheme: {},
+  currentItem: "",
+  treeXLocations: [],
+  generateTreeXs: function(){
+    const maxNumOfTrees = Math.floor(Math.random() * (Math.floor(this.numOfCols * 0.2))) + 1; 
+    console.log('maxNumOfTrees', maxNumOfTrees);
+    for (let i = 0; i<maxNumOfTrees; i++){
+      const treeXLocation = Math.floor(Math.random() * this.numOfCols);
+      if(!this.treeXLocations.includes(treeXLocation)){
+        this.treeXLocations.push(treeXLocation);
+      }
+    }
+  }
 }
 
-const gridData = buildGrid(numOfRows, numOfCols, cellSize);
+game.calcSurfaceLevel();
+game.currentTheme = game.themeOptions.normal;
+
+initializeInventory();
+
+// puts the correct items in the inventory based on the current theme
+function initializeInventory(){
+  const inventoryChildren = inventorySection.children;
+  let currentThemeClassList = Object.values(game.currentTheme);
+
+  for (let i=0; i<inventoryChildren.length; i++){
+    inventoryChildren[i].classList.add(currentThemeClassList[i]);
+  }
+}
+
+const gridData = buildGrid(game.numOfRows, game.numOfCols, game.cellSize);
 addBlocks(gridData);
 
 // creates and appends grid cells to the grid based on the number of rows and columns
@@ -46,11 +92,39 @@ function buildGrid(numOfRows, numOfCols, cellSize){
 
 // Goes over each cell and sets it's time
 function addBlocks(){
+  
+  game.generateTreeXs();
+
   gridData.forEach(cell => {
     let [row, column] = cell.getAttribute("id").split("-");
 
-    if(row >= game.surfaceLevel){
-      cell.classList.add("dirt");
-    }
+    checkTypeAndDraw(Number(row), Number(column), cell);
+    
   });
+}
+
+function checkTypeAndDraw(row, column, cell){
+  if(row === game.surfaceLevel){
+    // Draws grass at surface level
+    cell.classList.add(game.currentTheme.grass);
+  } else if (row > game.surfaceLevel){
+    // Draws random elements below surface level
+    const randomNum = Math.floor(Math.random() * 10);
+    if(randomNum>=7){
+      cell.classList.add(game.currentTheme.stone);
+    } else {
+      cell.classList.add(game.currentTheme.dirt)
+    }
+  } else if(game.treeXLocations.includes(column) && (row < game.surfaceLevel && row > game.surfaceLevel - 4)){
+    // draws wood and leaves on the x location of a tree
+    if(row === game.surfaceLevel - 3){
+      cell.classList.add(game.currentTheme.leaves)
+    } else {
+      cell.classList.add(game.currentTheme.wood)
+    }
+  }
+  else if( (row === game.surfaceLevel - 2 || row === game.surfaceLevel - 3) && (game.treeXLocations.includes(column-1) || game.treeXLocations.includes(column+1))){
+    //draws leaves on the sides of trees
+    cell.classList.add(game.currentTheme.leaves)
+  }
 }

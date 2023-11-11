@@ -4,8 +4,18 @@
   box-sizing: border-box;
 }
 
+body{
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 #game-grid {
   display: grid;
+  gap: 5px;
 }
 
 .grid-cell {
@@ -16,4 +26,78 @@
   /* Temporary (delete later - use now to see) */
   /* border: 2px solid black;  */
   /* background-image: url("../pics/icons/grass.png"); */
+}
+
+.dirt{
+  background-image: url("../pics/icons/dirt.png");
+}
+
+#HUD{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  background-color: rgba(221, 134, 21, 0.242);
+
+  pointer-events: none;
+
+}
+
+#tools-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  width: min-content;
+
+  pointer-events: all;
+
+  
+  
+}
+
+#inventory-section{
+  align-self: flex-end;
+  justify-self: center;
+
+  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  width: min-content;
+
+  pointer-events: all;
+
+  
+}
+
+#tools-section>div,
+#inventory-section>div{
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #444;
+  border: solid #999 3px;
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  height: 5vw;
+  width: 5vw;
+
+}
+
+#pickaxe{
+  background-image: url("../pics/icons/pickaxe.png");
+}
+#axe{
+  background-image: url("../pics/icons/axe.png");
+}
+#shovel{
+  background-image: url("../pics/icons/shovel.png");
 }

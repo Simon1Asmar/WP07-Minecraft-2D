@@ -16,6 +16,18 @@ body{
   background-image: url("../pics/bg-wool-dark.png");
 }
 
+/* MENU SCREEN */
+#menu-screen {
+  min-width: 100vw;
+  min-height: 100vh;
+
+  background-image: url("../pics/main-menu-bg.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* GAME SCREEN */
 #game-grid {
   display: grid;
 }
@@ -25,12 +37,7 @@ body{
   background: no-repeat center /cover;
   background-color: rgb(0, 183, 255);
   cursor: pointer;
-  /* Temporary (delete later - use now to see) */
-  /* border: 2px solid black;  */
-  /* background-image: url("../pics/icons/grass.png"); */
 }
-
-
 
 #tools-section {
   display: flex;
@@ -45,7 +52,6 @@ body{
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  
 }
 
 #inventory-section{
@@ -83,6 +89,15 @@ body{
 
 }
 
+.selected {
+  border-color: yellow;
+  color: yellow;
+}
+
+.display-none{
+  display: none;
+}
+
 .item>p {
   text-align: center;
 
@@ -99,6 +114,22 @@ body{
   border-radius: 50px;
 }
 
+/* #minecraft-logo {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-image: url("../pics/logo-minecraft.svg");
+  background-position: center;
+  //background-size: cover;
+  background-repeat: no-repeat;
+
+  width: 10vw;
+  height: 5vh;
+} */
+
+/* TOOLS */
 #pickaxe{
   background-image: url("../pics/tools/pickaxe.png");
 }
@@ -109,21 +140,7 @@ body{
   background-image: url("../pics/tools/shovel.png");
 }
 
-#minecraft-logo {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-
-  background-image: url("../pics/logo-minecraft.svg");
-  background-position: center;
-  /* background-size: cover; */
-  background-repeat: no-repeat;
-
-  width: 10vw;
-  height: 5vh;
-}
-
+/* TEXTURES */
 .cobblestone {
   background-image: url("../pics/textures/cobblestone.webp");
 }
@@ -162,9 +179,4 @@ body{
 
 .cactus {
   background-image: url("../pics/textures/cactus.webp");
-}
-
-.selected {
-  border-color: yellow;
-  color: yellow;
 }

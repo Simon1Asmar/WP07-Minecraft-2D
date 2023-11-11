@@ -107,6 +107,30 @@ const game = {
     }
   },
 
+  // cloud x / column locations
+  cloudStartLocations: [],
+  generateCloudLocations: function(){
+    this.cloudStartLocations.length = 0;
+    const maxNumOfClouds = Math.floor(Math.random() * (Math.floor(this.numOfCols * 0.2))) + 1; 
+    for (let i = 0; i<maxNumOfClouds; i++){
+      const cloudXYLocation = {
+        x: Math.floor(Math.random() * this.numOfCols),
+        y: Math.floor(Math.random() * 2) + 1
+      };
+      if(!this.cloudStartLocations.includes(cloudXYLocation)){
+        this.cloudStartLocations.push(cloudXYLocation);
+      }
+    }
+
+    // console.log(this.cloudStartLocations);
+    // if(this.cloudStartLocations.find(e =>{
+    //    return e.x === 3 ;
+    // })){
+
+    //   console.log("CLOUD", "yes");
+    // } 
+  },
+
   // inventory
   inventory: {
     
@@ -177,6 +201,7 @@ function buildGrid(numOfRows, numOfCols, cellSize){
 function addBlocks(gridData){
   
   game.generateTreeXs();
+  game.generateCloudLocations();
 
   gridData.forEach(cell => {
     let [row, column] = cell.getAttribute("id").split("-");
@@ -193,7 +218,7 @@ function checkTypeAndDraw(row, column, cell){
     if(game.currentTheme.grass){
       cell.classList.add(game.currentTheme.grass);
       cell.setAttribute("blockType", "grass-item");
-      console.log('cell', cell)
+      // console.log('cell', cell)
       // cell.setAttribue("block-type", `grass-item`);
     } else {
       // in themes such as desert we have sand for surface and below surface level
@@ -224,6 +249,11 @@ function checkTypeAndDraw(row, column, cell){
     //draws leaves on the sides of trees
     cell.classList.add(game.currentTheme.leaves)
     cell.setAttribute("blockType", "leaves-item");
+  } else if(game.cloudStartLocations.find(e => {
+    return (column >= e.x && column < e.x + 3 && row === e.y)
+  })){
+    //draws clouds
+    cell.classList.add("cloud");
   }
 }
 

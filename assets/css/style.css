@@ -282,3 +282,7 @@ label>select{
 .cactus {
   background-image: url("../pics/textures/cactus.webp");
 }
+
+.cloud {
+  background-image: url("../pics/textures/cloud.png");
+}

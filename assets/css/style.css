@@ -77,6 +77,26 @@ body{
   height: 5vw;
   width: 5vw;
 
+  position: relative;
+
+  color: white;
+
+}
+
+.item>p {
+  text-align: center;
+
+  height: 30px;
+  width: fit-content;
+
+  font-size: 1.5rem;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  background-color: rgba(68, 68, 68, 0.397);
+  border-radius: 50px;
 }
 
 #pickaxe{
@@ -112,18 +132,39 @@ body{
   background-image: url("../pics/textures/oak_log.webp");
 }
 
+.spruce-log {
+  background-image: url("../pics/textures/spruce_log.webp");
+}
+
 .oak-leaves {
   background-image: url("../pics/textures/oak_leaves.webp");
+}
+
+.spruce-leaves {
+  background-image: url("../pics/textures/spruce_leaves.webp");
 }
 
 .grass {
   background-image: url("../pics/textures/grass.webp");
 }
 
+.snowy-grass {
+  background-image: url("../pics/textures/snowy_grass.webp");
+}
+
 .dirt{
   background-image: url("../pics/textures/dirt.webp");
 }
 
+.sand {
+  background-image: url("../pics/textures/sand.webp");
+}
+
+.cactus {
+  background-image: url("../pics/textures/cactus.webp");
+}
+
 .selected {
   border-color: yellow;
+  color: yellow;
 }

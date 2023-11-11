@@ -14,8 +14,11 @@ toolsSection.addEventListener("click", e=>{
 })
 
 inventorySection.addEventListener("click", e=> {
-  console.log(e.target.classList[1]);
-  e.target.classList.add("selected")
+  console.log(e.target.id);
+  // console.log(e.target.classList[1]);
+  if(e.target.id){
+    e.target.classList.add("selected")
+  }
 })
 
 //TEMPORARY VALUES, when it's dynamic these values will be taken from a DOM element
@@ -23,10 +26,13 @@ const game = {
   numOfRows: 10,
   numOfCols: 15,
   cellSize: 100,
+
   surfaceLevel: 0, //SET THIS USING THE FOLLOWING FUNCTION
   calcSurfaceLevel: function(){
     this.surfaceLevel = Math.ceil(this.numOfRows * 0.5);
   },
+
+  //Object with different themes
   themeOptions: {
     normal: {
       dirt: "dirt",
@@ -34,10 +40,26 @@ const game = {
       stone: "cobblestone",
       wood: "oak-log",
       leaves: "oak-leaves",
+    },
+    snow: {
+      dirt: "dirt",
+      grass: "snowy-grass",
+      stone: "cobblestone",
+      wood: "spruce-log",
+      leaves: "spruce-leaves",
+    },
+    desert: {
+      dirt: "sand",
+      stone: "cobblestone",
+      wood: "cactus",
     }
   },
   currentTheme: {},
-  currentItem: "",
+
+  // current item or tool
+  currentAction: "",
+
+  // tree x / column locations
   treeXLocations: [],
   generateTreeXs: function(){
     const maxNumOfTrees = Math.floor(Math.random() * (Math.floor(this.numOfCols * 0.2))) + 1; 
@@ -48,11 +70,13 @@ const game = {
         this.treeXLocations.push(treeXLocation);
       }
     }
-  }
+  },
 }
 
 game.calcSurfaceLevel();
-game.currentTheme = game.themeOptions.normal;
+// game.currentTheme = game.themeOptions.normal;
+// game.currentTheme = game.themeOptions.snow;
+game.currentTheme = game.themeOptions.desert;
 
 initializeInventory();
 
@@ -60,10 +84,24 @@ initializeInventory();
 function initializeInventory(){
   const inventoryChildren = inventorySection.children;
   let currentThemeClassList = Object.values(game.currentTheme);
+  let currentThemeKeys = Object.keys(game.currentTheme);
+  console.log('currentThemeClassList', currentThemeClassList)
 
   for (let i=0; i<inventoryChildren.length; i++){
-    inventoryChildren[i].classList.add(currentThemeClassList[i]);
+
+    const p = inventoryChildren[i].querySelector("p");
+
+    if(currentThemeKeys[i]){
+      inventoryChildren[i].id = `${currentThemeKeys[i]}-item`
+      inventoryChildren[i].classList.add(currentThemeClassList[i]);
+
+      p.textContent = "0";
+    } else {
+      
+      p.textContent = "";
+    }
   }
+
 }
 
 const gridData = buildGrid(game.numOfRows, game.numOfCols, game.cellSize);
@@ -106,7 +144,12 @@ function addBlocks(){
 function checkTypeAndDraw(row, column, cell){
   if(row === game.surfaceLevel){
     // Draws grass at surface level
-    cell.classList.add(game.currentTheme.grass);
+    if(game.currentTheme.grass){
+      cell.classList.add(game.currentTheme.grass);
+    } else {
+      // in themes such as desert we have sand for surface and below surface level
+      cell.classList.add(game.currentTheme.dirt);
+    }
   } else if (row > game.surfaceLevel){
     // Draws random elements below surface level
     const randomNum = Math.floor(Math.random() * 10);
@@ -123,7 +166,7 @@ function checkTypeAndDraw(row, column, cell){
       cell.classList.add(game.currentTheme.wood)
     }
   }
-  else if( (row === game.surfaceLevel - 2 || row === game.surfaceLevel - 3) && (game.treeXLocations.includes(column-1) || game.treeXLocations.includes(column+1))){
+  else if((row === game.surfaceLevel - 2 || row === game.surfaceLevel - 3) && (game.treeXLocations.includes(column-1) || game.treeXLocations.includes(column+1)) && game.currentTheme.leaves != null){
     //draws leaves on the sides of trees
     cell.classList.add(game.currentTheme.leaves)
   }
